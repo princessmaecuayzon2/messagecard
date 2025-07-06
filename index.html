@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message of Comfort</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="card-container">
+        <div class="card" id="card">
+            <div class="card-front">
+                <div class="heart"></div>
+                <div class="greeting">Hey there, my bestfriend 👋</div>
+                <div class="title">You're Not Alone</div>
+                <div class="quote">"Stars can't shine without darkness"</div>
+                <div class="message">
+                    I know this is hard for you because everything happened all at once. I can feel that. There are others who have gone through the same situation too, but they fought to survive. And I believe you can also - just trust yourself.
+                </div>
+                <div class="signature">With love and support 💙</div>
+                <div class="flip-hint">Click to see more →</div>
+            </div>
+            
+            <div class="card-back">
+                <div class="strength-icon">💪</div>
+                <div class="title">Your Strength</div>
+                <div class="quote">"The strongest people are not those who show strength in front of us, but those who win battles we know nothing about."</div>
+                <div class="message">
+                    The day will come when you'll overcome this and you'll be proud of yourself because you made it. Every challenge you face is shaping you into someone stronger. You have the power within you to get through this difficult time.
+                </div>
+                <div class="encouragement">You've got this! 🌟</div>
+                <div class="signature">Your friend, always here for you</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="interactive-hint">
+        Click the card to flip it and see the full message ✨
+    </div>
+
+    <script>
+        // Create twinkling stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Card flip functionality
+        const card = document.getElementById('card');
+        card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+
+        // Add gentle hover effect
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+        });
+
+        // Initialize stars
+        createStars();
+
+        // Hide the hint after some time
+        setTimeout(() => {
+            const hint = document.querySelector('.interactive-hint');
+            hint.style.opacity = '0';
+            hint.style.transition = 'opacity 1s ease-out';
+        }, 5000);
+    </script>
+</body>
+</html>

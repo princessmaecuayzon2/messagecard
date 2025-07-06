@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message of Comfort</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .card-container {
+            perspective: 1000px;
+            z-index: 2;
+        }
+
+        .card {
+            width: 400px;
+            height: 550px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            animation: cardFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px) rotateY(0deg); }
+            50% { transform: translateY(-10px) rotateY(2deg); }
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            color: #2d3436;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #81ecec 0%, #74b9ff 100%);
+            color: #2d3436;
+            transform: rotateY(180deg);
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .heart {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+            position: relative;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 30px;
+            height: 48px;
+            position: absolute;
+            left: 30px;
+            transform: rotate(-45deg);
+            background: #e74c3c;
+            border-radius: 30px 30px 0 0;
+            transform-origin: 0 100%;
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .greeting {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #e17055;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .quote {
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 20px;
+            opacity: 0.8;
+            color: #636e72;
+            border-left: 3px solid #e17055;
+            padding-left: 15px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.7s forwards;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 2s forwards;
+        }
+
+        .message {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1s forwards;
+        }
+
+        .signature {
+            font-size: 14px;
+            font-style: italic;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            opacity: 0.7;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .strength-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            background: #00b894;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            animation: strengthGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes strengthGlow {
+            0% { box-shadow: 0 0 20px rgba(0, 184, 148, 0.5); }
+            100% { box-shadow: 0 0 30px rgba(0, 184, 148, 0.8); }
+        }
+
+        .interactive-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            transition: transform 0.3s ease;
+        }
+
+        .encouragement {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00b894;
+            margin-top: 15px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 2s forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="card-container">
+        <div class="card" id="card">
+            <div class="card-front">
+                <div class="heart"></div>
+                <div class="greeting">Hey there, my bestfriend 👋</div>
+                <div class="title">You're Not Alone</div>
+                <div class="quote">"Stars can't shine without darkness"</div>
+                <div class="message">
+                    I know this is hard for you because everything happened all at once. I can feel that. There are others who have gone through the same situation too, but they fought to survive. And I believe you can also - just trust yourself.
+                </div>
+                <div class="signature">With love and support 💙</div>
+                <div class="flip-hint">Click to see more →</div>
+            </div>
+            
+            <div class="card-back">
+                <div class="strength-icon">💪</div>
+                <div class="title">Your Strength</div>
+                <div class="quote">"The strongest people are not those who show strength in front of us, but those who win battles we know nothing about."</div>
+                <div class="message">
+                    The day will come when you'll overcome this and you'll be proud of yourself because you made it. Every challenge you face is shaping you into someone stronger. You have the power within you to get through this difficult time.
+                </div>
+                <div class="encouragement">You've got this! 🌟</div>
+                <div class="signature">Your friend, always here for you</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="interactive-hint">
+        Click the card to flip it and see the full message ✨
+    </div>
+
+    <script>
+        // Create twinkling stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Card flip functionality
+        const card = document.getElementById('card');
+        card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+
+        // Add gentle hover effect
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+        });
+
+        // Initialize stars
+        createStars();
+
+        // Hide the hint after some time
+        setTimeout(() => {
+            const hint = document.querySelector('.interactive-hint');
+            hint.style.opacity = '0';
+            hint.style.transition = 'opacity 1s ease-out';
+        }, 5000);
+    </script>
+</body>
+</html>

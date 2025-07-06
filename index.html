@@ -4,13 +4,484 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Message of Comfort</title>
-    <link rel="stylesheet" href="styles.css">
-    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        /* Mobile responsive body */
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 2px;
+                overflow-x: hidden;
+            }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .card-container {
+            perspective: 1000px;
+            z-index: 2;
+            animation: cardFloat 4s ease-in-out infinite;
+        }
+
+        .card {
+            width: 420px;
+            height: 600px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            cursor: pointer;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .card {
+                width: 90vw;
+                max-width: 350px;
+                height: 80vh;
+                max-height: 550px;
+                min-height: 500px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 95vw;
+                max-width: 320px;
+                height: 85vh;
+                max-height: 600px;
+                min-height: 480px;
+            }
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Reduce float animation on mobile */
+        @media (max-width: 768px) {
+            @keyframes cardFloat {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-5px); }
+            }
+        }
+
+        @media (max-width: 480px) {
+            @keyframes cardFloat {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-3px); }
+            }
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        /* Mobile responsive padding */
+        @media (max-width: 768px) {
+            .card-front, .card-back {
+                padding: 25px 20px;
+                border-radius: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-front, .card-back {
+                padding: 20px 15px;
+                border-radius: 12px;
+            }
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            color: #2d3436;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #81ecec 0%, #74b9ff 100%);
+            color: #2d3436;
+            transform: rotateY(180deg);
+        }
+
+        .heart {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+            position: relative;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .strength-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            background: #00b894;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            animation: strengthGlow 2s ease-in-out infinite alternate;
+        }
+
+        /* Mobile responsive icons */
+        @media (max-width: 768px) {
+            .heart {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 15px;
+            }
+            
+            .heart::before,
+            .heart::after {
+                width: 25px;
+                height: 40px;
+                left: 25px;
+            }
+            
+            .heart::after {
+                left: 0;
+            }
+            
+            .strength-icon {
+                width: 65px;
+                height: 65px;
+                margin-bottom: 15px;
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .heart {
+                width: 45px;
+                height: 45px;
+                margin-bottom: 12px;
+            }
+            
+            .heart::before,
+            .heart::after {
+                width: 22px;
+                height: 36px;
+                left: 22px;
+            }
+            
+            .heart::after {
+                left: 0;
+            }
+            
+            .strength-icon {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 12px;
+                font-size: 28px;
+            }
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 30px;
+            height: 48px;
+            position: absolute;
+            left: 30px;
+            transform: rotate(-45deg);
+            background: #e74c3c;
+            border-radius: 30px 30px 0 0;
+            transform-origin: 0 100%;
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .greeting {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #e17055;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1s forwards;
+        }
+
+        /* Mobile responsive typography */
+        @media (max-width: 768px) {
+            .greeting {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+            
+            .title {
+                font-size: 24px;
+                margin-bottom: 16px;
+            }
+            
+            .quote {
+                font-size: 13px;
+                margin-bottom: 16px;
+            }
+            
+            .message {
+                font-size: 15px;
+                line-height: 1.5;
+                margin-bottom: 16px;
+            }
+            
+            .signature {
+                font-size: 13px;
+            }
+            
+            .encouragement {
+                font-size: 16px;
+                margin-top: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .greeting {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+            
+            .title {
+                font-size: 22px;
+                margin-bottom: 14px;
+            }
+            
+            .quote {
+                font-size: 12px;
+                margin-bottom: 14px;
+                padding-left: 12px;
+            }
+            
+            .message {
+                font-size: 14px;
+                line-height: 1.4;
+                margin-bottom: 14px;
+            }
+            
+            .signature {
+                font-size: 12px;
+            }
+            
+            .encouragement {
+                font-size: 15px;
+                margin-top: 10px;
+            }
+        }
+
+        .quote {
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 20px;
+            opacity: 0.8;
+            color: #636e72;
+            border-left: 3px solid #e17055;
+            padding-left: 15px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.7s forwards;
+        }
+
+        .card-back .quote {
+            color: #2d3436;
+            border-left: 3px solid #00b894;
+        }
+
+        .message {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.5s forwards;
+        }
+
+        .signature {
+            font-size: 14px;
+            font-style: italic;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 2s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            opacity: 0.7;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .strength-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            background: #00b894;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            animation: strengthGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes strengthGlow {
+            0% { box-shadow: 0 0 20px rgba(0, 184, 148, 0.5); }
+            100% { box-shadow: 0 0 30px rgba(0, 184, 148, 0.8); }
+        }
+
+        .encouragement {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00b894;
+            margin-top: 15px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 2s forwards;
+        }
+
+        .interactive-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* Mobile responsive interactive hint */
+        @media (max-width: 768px) {
+            .interactive-hint {
+                bottom: 15px;
+                padding: 8px 16px;
+                font-size: 13px;
+                border-radius: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .interactive-hint {
+                bottom: 10px;
+                padding: 6px 12px;
+                font-size: 12px;
+                border-radius: 15px;
+                max-width: 90%;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card-container:hover {
+            transform: translateY(-5px) scale(1.02);
+            transition: transform 0.3s ease;
+        }
+
+        .card-container.flipped:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+    </style>
 </head>
 <body>
     <div class="stars" id="stars"></div>
     
-    <div class="card-container">
+    <div class="card-container" id="cardContainer">
         <div class="card" id="card">
             <div class="card-front">
                 <div class="heart"></div>
@@ -32,7 +503,7 @@
                     The day will come when you'll overcome this and you'll be proud of yourself because you made it. Every challenge you face is shaping you into someone stronger. You have the power within you to get through this difficult time.
                 </div>
                 <div class="encouragement">You've got this! 🌟</div>
-                <div class="signature">Your friend, always here for you</div>
+                <div class="signature">I'm always here for you</div>
             </div>
         </div>
     </div>
@@ -57,17 +528,11 @@
 
         // Card flip functionality
         const card = document.getElementById('card');
+        const cardContainer = document.getElementById('cardContainer');
+        
         card.addEventListener('click', function() {
             this.classList.toggle('flipped');
-        });
-
-        // Add gentle hover effect
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px) scale(1.02)';
-        });
-
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = '';
+            cardContainer.classList.toggle('flipped');
         });
 
         // Initialize stars
@@ -76,8 +541,10 @@
         // Hide the hint after some time
         setTimeout(() => {
             const hint = document.querySelector('.interactive-hint');
-            hint.style.opacity = '0';
-            hint.style.transition = 'opacity 1s ease-out';
+            if (hint) {
+                hint.style.opacity = '0';
+                hint.style.transition = 'opacity 1s ease-out';
+            }
         }, 5000);
     </script>
 </body>
